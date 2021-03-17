@@ -26,11 +26,10 @@ from database.mdb import (
 
 
 
-@Client.on_message(filters.group & filters.command(["add"]))
+@Client.on_message(filters.group & filters.command(["autofilter"]))
 async def addchannel(client: Bot, message: Message):
 
-    if message.from_user.id not in AUTH_USERS:
-        return
+
 
     try:
         cmd, text = message.text.split(" ", 1)
@@ -190,9 +189,6 @@ async def addchannel(client: Bot, message: Message):
 @Client.on_message(filters.group & filters.command(["del"]))
 async def deletechannelfilters(client: Bot, message: Message):
 
-    if message.from_user.id not in AUTH_USERS:
-        return
-
     try:
         cmd, text = message.text.split(" ", 1)
     except:
@@ -274,9 +270,6 @@ async def delallconfirm(client: Bot, message: Message):
 
 async def deleteallfilters(client: Bot, message: Message):
 
-    if message.reply_to_message.from_user.id not in AUTH_USERS:
-        return
-
     intmsg = await message.reply_to_message.reply_text(
         "<i>Please wait while I'm deleteing your channel.</i>"
         "\n\nDon't give any other commands now!</i>"
@@ -304,9 +297,6 @@ async def deleteallfilters(client: Bot, message: Message):
 
 @Client.on_message(filters.group & filters.command(["filterstats"]))
 async def stats(client: Bot, message: Message):
-
-    if message.from_user.id not in AUTH_USERS:
-        return
 
     group_id = message.chat.id
     group_name = message.chat.title
