@@ -23,10 +23,11 @@ from database.mdb import (
     channeldetails,
     countfilters
 )
-
+from helpers.wrappers import admins_only
 
 
 @Client.on_message(filters.group & filters.command(["autofilter"]))
+@admins_only
 async def addchannel(client: Bot, message: Message):
 
 
@@ -187,6 +188,7 @@ async def addchannel(client: Bot, message: Message):
 
 
 @Client.on_message(filters.group & filters.command(["autofilterdel"]))
+@admins_only
 async def deletechannelfilters(client: Bot, message: Message):
 
     try:
@@ -258,6 +260,7 @@ async def deletechannelfilters(client: Bot, message: Message):
 
 
 @Client.on_message(filters.group & filters.command(["autofilterdelall"]))
+@admins_only
 async def delallconfirm(client: Bot, message: Message):
     await message.reply_text(
         "Are you sure?? This will disconnect all connected channels and deletes all filters in group",
@@ -296,6 +299,7 @@ async def deleteallfilters(client: Bot, message: Message):
 
 
 @Client.on_message(filters.group & filters.command(["autofilterstats"]))
+@admins_only
 async def stats(client: Bot, message: Message):
 
     group_id = message.chat.id
