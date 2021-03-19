@@ -283,37 +283,37 @@ async def delallconfirm(client: Bot, message: Message):
                 [InlineKeyboardButton(text="CANCEL",callback_data="delallcancel")]
             ])
         )
-
-
-        async def deleteallfilters(client: Bot, message: Message):
-
-            intmsg = await message.reply_to_message.reply_text(
-                "<i>Please wait while I'm deleteing your channel.</i>"
-                "\n\nDon't give any other commands now!</i>"
-            )
-
-            group_id = message.reply_to_message.chat.id
-
-            await deletealldetails(group_id)
-
-            delete_all = await deletegroupcol(group_id)
-
-            if delete_all == 0:
-                await intmsg.edit_text(
-                    "All filters from group deleted successfully!"
-                )
-            elif delete_all == 1:
-                await intmsg.edit_text(
-                    "Nothing to delete!!"
-                )
-            elif delete_all == 2:
-                await intmsg.edit_text(
-                    "Couldn't delete filters. Try again after sometime.."
-                )  
     else:
         message.reply_text(
             "❗ **Group Creator Required**\n__You have to be the group creator to do that.__"
         )
+
+async def deleteallfilters(client: Bot, message: Message):
+
+    intmsg = await message.reply_to_message.reply_text(
+        "<i>Please wait while I'm deleteing your channel.</i>"
+        "\n\nDon't give any other commands now!</i>"
+    )
+
+    group_id = message.reply_to_message.chat.id
+
+    await deletealldetails(group_id)
+
+    delete_all = await deletegroupcol(group_id)
+
+    if delete_all == 0:
+        await intmsg.edit_text(
+            "All filters from group deleted successfully!"
+        )
+    elif delete_all == 1:
+        await intmsg.edit_text(
+            "Nothing to delete!!"
+        )
+    elif delete_all == 2:
+        await intmsg.edit_text(
+            "Couldn't delete filters. Try again after sometime.."
+        )  
+
 
 @Client.on_message(filters.group & filters.command(["autofilterstats"]))
 async def stats(client: Bot, message: Message):
