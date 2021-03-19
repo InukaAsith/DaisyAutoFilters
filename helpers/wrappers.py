@@ -18,6 +18,6 @@ def admins_only(func: Callable) -> Coroutine:
             else:
                 client.send_message(
                     chat_id,
-                    f"❗ **This is an admin only command**",
+                    f"❗ **Sorry!.. This is an admin only command**",
                 )
     return wrapper
