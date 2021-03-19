@@ -35,9 +35,9 @@ async def addchannel(client: Bot, message: Message):
         cmd, text = message.text.split(" ", 1)
     except:
         await message.reply_text(
-            "<i>Enter in correct format!\n\n<code>/add channelid</code>  or\n"
-            "<code>/add @channelusername</code></i>"
-            "\n\nGet Channel id from @ChannelidHEXbot",
+            "<i>Please enter in the corrent manner!\n\n<code>/autofilter channelid</code>  or\n"
+            "<code>/autofilter @channelusername</code></i>"
+            "\n\nGet Channel id from @ShowJsonBot",
         )
         return
     try:
@@ -58,8 +58,8 @@ async def addchannel(client: Bot, message: Message):
     except Exception:
         await message.reply_text(
             "Enter a valid ID\n"
-            "ID will be in <b>-100xxxxxxxxxx</b> format\n"
-            "You can also use username of channel with @ symbol",
+            "Correct syntax : <b>-100xxxxxxxxxx</b>\n"
+            "Or use @Username of Channel",
         )
         return
 
@@ -67,7 +67,7 @@ async def addchannel(client: Bot, message: Message):
         invitelink = await client.export_chat_invite_link(chid)
     except:
         await message.reply_text(
-            "<i>Add me as admin in your channel with admin rights - 'Invite Users via Link' and try again</i>",
+            "<b>Add me as admin of yor channel first</b>",
         )
         return
 
@@ -83,8 +83,8 @@ async def addchannel(client: Bot, message: Message):
     except Exception as e:
         print(e)
         await message.reply_text(
-            f"<i>User {user.first_name} couldn't join your channel! Make sure user is not banned in channel."
-            "\n\nOr manually add the user to your channel and try again</i>",
+            f"<b>User {user.first_name} couldn't join your channel! Make sure user is not banned in channel."
+            "\n\nOr manually add the user to your channel and try again</b>",
         )
         return
 
@@ -97,9 +97,9 @@ async def addchannel(client: Bot, message: Message):
         return
 
     intmsg = await message.reply_text(
-        "<i>Please wait while I'm adding your channel files to DB"
-        "\n\nIt may take some time if you have more files in channel!!"
-        "\nDon't give any other commands now!</i>"
+        "<b>Please wait while I'm adding your channel files to DB"
+        "\n\nTime may vary according to files present in the channel"
+        "\nSay Hi to the support @DaisySupport_Official!!</b>"
     )
 
     channel_id = chatdetails.id
@@ -109,7 +109,7 @@ async def addchannel(client: Bot, message: Message):
 
     already_added = await ifexists(channel_id, group_id)
     if already_added:
-        await intmsg.edit_text("Channel already added to db!")
+        await intmsg.edit_text("I'm already filtering it!")
         return
 
     docs = []
@@ -186,16 +186,16 @@ async def addchannel(client: Bot, message: Message):
     await intmsg.edit_text("Channel added successfully!")
 
 
-@Client.on_message(filters.group & filters.command(["del"]))
+@Client.on_message(filters.group & filters.command(["autofilterdel"]))
 async def deletechannelfilters(client: Bot, message: Message):
 
     try:
         cmd, text = message.text.split(" ", 1)
     except:
         await message.reply_text(
-            "<i>Enter in correct format!\n\n<code>/del channelid</code>  or\n"
-            "<code>/del @channelusername</code></i>"
-            "\n\nrun /filterstats to see connected channels",
+            "<i>Please enter in the corrent manner!\n\n<code>/autofilterdel channelid</code>  or\n"
+            "<code>/autofilterdel @channelusername</code></i>"
+            "\n\nrun /autofilterstats to see connected channels",
         )
         return
     try:
@@ -203,7 +203,7 @@ async def deletechannelfilters(client: Bot, message: Message):
             chid = int(text)
             if not len(text) == 14:
                 await message.reply_text(
-                    "Enter valid channel ID\n\nrun /filterstats to see connected channels"
+                    "Enter valid channel ID\n\nrun /autofilterstats to see connected channels"
                 )
                 return
         elif text.startswith("@"):
@@ -216,8 +216,8 @@ async def deletechannelfilters(client: Bot, message: Message):
     except Exception:
         await message.reply_text(
             "Enter a valid ID\n"
-            "run /filterstats to see connected channels\n"
-            "You can also use username of channel with @ symbol",
+            "run /autofilterstats to see connected channels\n"
+            "Or enter channel @Username",
         )
         return
 
@@ -225,14 +225,14 @@ async def deletechannelfilters(client: Bot, message: Message):
         chatdetails = await client.USER.get_chat(chid)
     except:
         await message.reply_text(
-            "<i>User must be present in given channel.\n\n"
-            "If user is already present, send a message to your channel and try again</i>"
+            "<b>User must be present in given channel.\n\n"
+            "If user is already present, send a message to your channel and try again</b>"
         )
         return
 
     intmsg = await message.reply_text(
-        "<i>Please wait while I'm deleteing your channel"
-        "\n\nDon't give any other commands now!</i>"
+        "<b>Removing from Daisy's autofilter db"
+        "\n\nSay Hi to the support @DaisySupport_Official!</i>"
     )
 
     channel_id = chatdetails.id
@@ -257,7 +257,7 @@ async def deletechannelfilters(client: Bot, message: Message):
         )
 
 
-@Client.on_message(filters.group & filters.command(["delall"]))
+@Client.on_message(filters.group & filters.command(["autofilterdelall"]))
 async def delallconfirm(client: Bot, message: Message):
     await message.reply_text(
         "Are you sure?? This will disconnect all connected channels and deletes all filters in group",
@@ -295,13 +295,13 @@ async def deleteallfilters(client: Bot, message: Message):
         )  
 
 
-@Client.on_message(filters.group & filters.command(["filterstats"]))
+@Client.on_message(filters.group & filters.command(["autofilterstats"]))
 async def stats(client: Bot, message: Message):
 
     group_id = message.chat.id
     group_name = message.chat.title
 
-    stats = f"Stats for Auto Filter Bot in {group_name}\n\n<b>Connected channels ;</b>"
+    stats = f"Daisy's autofilter stats for {group_name}\n\n<b>Connected channels ;</b>"
 
     chdetails = await channeldetails(group_id)
     if chdetails:
@@ -311,13 +311,13 @@ async def stats(client: Bot, message: Message):
             stats += details
             n = n + 1
     else:
-        stats += "\nNo channels connected in current group!!"
+        stats += "\nNo channels connected vro. Add one by /autofilter @Username!!"
         await message.reply_text(stats)
         return
 
     total = await countfilters(group_id)
     if total:
-        stats += f"\n\n<b>Total number of filters</b> : {total}"
+        stats += f"\n\n<b>Total number of autofilters</b> : {total}"
 
     await message.reply_text(stats)
 
