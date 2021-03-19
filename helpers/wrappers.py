@@ -15,5 +15,9 @@ def admins_only(func: Callable) -> Coroutine:
         for admin in admins:
             if admin.id == message.from_user.id:
                 return await func(client, message)
-
+            else:
+                client.send_message(
+                    chat_id,
+                    f"❗ **This is an admin only command**",
+                )
     return wrapper
