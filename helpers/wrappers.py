@@ -17,7 +17,7 @@ def admins_only(func: Callable) -> Coroutine:
                 return await func(client, message)
             else:
                 client.send_message(
-                    chat_id,
+                    message.chat.id,
                     f"❗ **Sorry!.. This is an admin only command**",
                 )
     return wrapper
