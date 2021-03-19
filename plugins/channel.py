@@ -36,7 +36,7 @@ from database.mdb import (
 @Client.on_message(filters.group & filters.command(["autofilter"]))
 async def addchannel(client: Bot, message: Message):
     user = client.get_chat_member(message.chat.id, message.from_user.id)
-    if user.status is "creator":
+    if user.is_creator:
 
 
         try:
